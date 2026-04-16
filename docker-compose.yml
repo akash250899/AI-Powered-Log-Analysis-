@@ -1,0 +1,13 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/mock_logs:/app/mock_logs
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - LM_STUDIO_URL=http://host.docker.internal:1234/v1
