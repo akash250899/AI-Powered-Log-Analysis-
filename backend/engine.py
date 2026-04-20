@@ -9,7 +9,7 @@ import config
 
 client = OpenAI(base_url=config.LM_STUDIO_URL, api_key="dummy-key")
 
-def get_raw_logs(server_id: str, port: int, log_type: str) -> str:
+def get_raw_logs(ip_address: str, port: int, log_type: str) -> str:
     """Retrieve logs either via local mock files or remote SSH."""
     if log_type not in config.VALID_LOG_TYPES:
         raise HTTPException(
@@ -29,10 +29,8 @@ def get_raw_logs(server_id: str, port: int, log_type: str) -> str:
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Error reading mock file: {str(e)}")
     else:
-        if server_id not in config.SERVER_MAPPING:
-            raise HTTPException(status_code=400, detail=f"Unknown server_id: {server_id}")
-            
-        server_ip = config.SERVER_MAPPING[server_id]
+        # Connect directly using ip_address passed from frontend
+        server_ip = ip_address
         
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())

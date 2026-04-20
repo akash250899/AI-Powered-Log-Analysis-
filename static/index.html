@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Log Analyzer</title>
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Marked.js -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Custom CSS and JS Modules -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/main.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <h1>AI Log Analyzer</h1>
+        <div class="status-badge">
+            <div class="status-dot"></div>
+            Status: Online
+        </div>
+    </header>
+
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div id="error-container" class="error-message">
+                <div class="error-title">Analysis Failed</div>
+                <div id="error-text" class="error-detail">Connection refused</div>
+            </div>
+
+            <div class="control-group">
+                <label for="server_id">Target Server</label>
+                <select id="server_id" class="form-control">
+                    <option value="Local Author">Local Author</option>
+                    <option value="Local Publisher">Local Publisher</option>
+                    <option value="Dev Author">Dev Author</option>
+                    <option value="Dev Publisher">Dev Publisher</option>
+                    <option value="Stage Author">Stage Author</option>
+                    <option value="Stage Publisher">Stage Publisher</option>
+                </select>
+            </div>
+
+            <!-- New IP Address Field auto-populated from Topologies -->
+            <div class="control-group">
+                <label for="ip_address">IP Address</label>
+                <input type="text" id="ip_address" class="form-control" value="192.168.1.10">
+            </div>
+
+            <div class="control-group">
+                <label for="port">SSH Port</label>
+                <input type="number" id="port" class="form-control" value="22" min="1" max="65535">
+            </div>
+
+            <div class="control-group">
+                <label for="log_type">Log Type</label>
+                <select id="log_type" class="form-control">
+                    <option value="error">error.log</option>
+                    <option value="access">access.log</option>
+                    <option value="request">request.log</option>
+                </select>
+            </div>
+
+            <button id="analyze-btn" class="btn-analyze" onclick="submitAnalysis()">
+                <div class="spinner" id="btn-spinner"></div>
+                <span id="btn-text">Analyze Logs</span>
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="pane">
+                <div class="pane-header">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                    Raw Logs / drain3 Clusters
+                </div>
+                <div id="raw-logs-pane" class="pane-content">
+                    <div class="no-data">Select a server and hit Analyze...</div>
+                </div>
+            </div>
+
+            <div class="pane">
+                <div class="pane-header">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    AI Root Cause Analysis
+                </div>
+                <div id="analysis-pane" class="pane-content">
+                    <div class="no-data">Waiting for LLM output...</div>
+                </div>
+
+                <!-- Global Loading Overlay for Analysis Area -->
+                <div id="loading-overlay" class="overlay">
+                    <div class="loading-box">
+                        <div class="spinner"></div>
+                        <p>Clustering logs & consulting Local LLM...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

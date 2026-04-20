@@ -4,3 +4,4 @@ pydantic>=2.6.4
 openai>=1.14.0
 drain3>=0.9.11
 paramiko>=3.4.0
+aiofiles>=23.2.1
