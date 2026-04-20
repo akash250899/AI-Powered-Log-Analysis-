@@ -2,12 +2,15 @@ import os
 
 MOCK_MODE = True
 VALID_LOG_TYPES = {"error", "access", "request"}
-MAX_LOG_LINES = 500
+MAX_LOG_LINES = 10000
 
 SERVER_MAPPING = {
-    "local": "192.168.1.10",
-    "dev": "192.168.1.11",
-    "stage": "192.168.1.12"
+    "Local Author": "192.168.1.10",
+    "Local Publisher": "192.168.1.11",
+    "Dev Author": "192.168.1.12",
+    "Dev Publisher": "192.168.1.13",
+    "Stage Author": "192.168.1.14",
+    "Stage Publisher": "192.168.1.15",
 }
 
 LM_STUDIO_URL = os.getenv("LM_STUDIO_URL", "http://host.docker.internal:1234/v1")
