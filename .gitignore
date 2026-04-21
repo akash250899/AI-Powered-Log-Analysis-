@@ -24,3 +24,10 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+
+# Sensitive Credentials & Keys
+.env
+*.pem
+*.key
+mock_aem_key
+mock_aem_key.pub

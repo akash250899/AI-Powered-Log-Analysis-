@@ -1,6 +1,6 @@
 import os
 
-MOCK_MODE = True
+MOCK_MODE = os.getenv("MOCK_MODE", "true").lower() == "true"
 VALID_LOG_TYPES = {"error", "access", "request"}
 MAX_LOG_LINES = 10000
 
