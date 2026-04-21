@@ -67,5 +67,4 @@ async def serve_index():
     return FileResponse(os.path.join(static_dir, "index.html"))
 
 # Serve UI assets from the static directory directly. 
-# CRITICAL: This MUST be at the bottom of the file so it doesn't override /analyze and return 405 Method Not Allowed!
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
