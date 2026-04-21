@@ -18,7 +18,6 @@ def get_raw_logs(ip_address: str, port: int, log_type: str) -> str:
         )
     
     if config.MOCK_MODE:
-        print("Using mock log....")
         log_file_path = os.path.join("mock_logs", f"{log_type}.log")
         if not os.path.exists(log_file_path):
             raise HTTPException(status_code=404, detail=f"Mock log file not found for {log_type}")
@@ -92,7 +91,7 @@ def compress_logs(raw_logs_str: str) -> str:
         template = cluster.get_template()
         record = f"[Count: {cluster.size}] {template}"
         
-        if any(kw in template.upper() for kw in ["ERROR", "WARN", "EXCEPTION", "FAIL", "CRITICAL", "NULLPOINTER"]):
+        if any(kw in template.upper() for kw in ["ERROR", "WARN", "EXCEPTION", "FAIL", "CRITICAL"]):
             errors_and_warns.append(record)
         else:
             infos.append(record)

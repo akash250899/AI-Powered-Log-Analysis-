@@ -153,7 +153,6 @@ curl -X POST http://localhost:8000/analyze \
 ## Limitations
 
 - **Context Window**: LLM context limit restricts log size - system uses Drain3 compression to reduce tokens, but very large logs may still exceed limits
-- **SSH Access**: Requires passwordless SSH key authentication to target servers
 - **Local Only**: Uses local LM Studio; no cloud AI integration (can be extended)
 - **Log Types**: Only supports `error`, `access`, `request` log types
 - **No Persistence**: Analysis is not saved to database - each request is independent
