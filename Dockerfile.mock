@@ -1,0 +1,33 @@
+FROM ubuntu:latest
+
+RUN apt-get update && apt-get install -y openssh-server
+
+# Create aemuser
+RUN useradd -rm -d /home/aemuser -s /bin/bash aemuser
+
+# Setup ssh directory
+RUN mkdir -p /home/aemuser/.ssh
+COPY mock_aem_key.pub /home/aemuser/.ssh/authorized_keys
+
+# Set permissions
+RUN chmod 700 /home/aemuser/.ssh && \
+    chmod 600 /home/aemuser/.ssh/authorized_keys && \
+    chown -R aemuser:aemuser /home/aemuser/.ssh
+
+# Configure sshd to disable password authentication
+RUN mkdir -p /var/run/sshd
+RUN sed -i 's/^#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+RUN sed -i 's/^PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+# Ensure PubkeyAuthentication is yes (usually default but safe to set)
+RUN sed -i 's/^#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+
+# Create mock log file
+RUN mkdir -p /mnt/crx/author/crx-quickstart/logs
+RUN echo "2026-04-21 10:00:00 [ERROR] Mock error message 1\n2026-04-21 10:01:00 [WARN] Mock warning message" > /mnt/crx/author/crx-quickstart/logs/error.log
+RUN chown -R aemuser:aemuser /mnt/crx/author/crx-quickstart/logs
+
+# Expose SSH port
+EXPOSE 22
+
+# Start SSH server on boot
+CMD ["/usr/sbin/sshd", "-D"]

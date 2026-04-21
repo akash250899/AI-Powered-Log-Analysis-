@@ -18,6 +18,7 @@ def get_raw_logs(ip_address: str, port: int, log_type: str) -> str:
         )
     
     if config.MOCK_MODE:
+        print("Using mock log....")
         log_file_path = os.path.join("mock_logs", f"{log_type}.log")
         if not os.path.exists(log_file_path):
             raise HTTPException(status_code=404, detail=f"Mock log file not found for {log_type}")
@@ -36,14 +37,15 @@ def get_raw_logs(ip_address: str, port: int, log_type: str) -> str:
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         
         try:
+            private_key = paramiko.RSAKey.from_private_key_file('/app/mock_aem_key')
             ssh.connect(
                 hostname=server_ip, 
                 port=port, 
-                username=config.SSH_USER, 
-                key_filename=config.SSH_KEY_PATH, 
+                username='aemuser', 
+                pkey=private_key, 
                 timeout=10
             )
-            command = f"tail -n {config.MAX_LOG_LINES} /var/log/{log_type}.log"
+            command = "tail -n 2000 /mnt/crx/author/crx-quickstart/logs/error.log"
             stdin, stdout, stderr = ssh.exec_command(command, timeout=15)
             
             exit_status = stdout.channel.recv_exit_status()
