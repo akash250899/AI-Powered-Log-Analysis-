@@ -113,7 +113,7 @@ def get_ai_analysis(compressed_logs: str) -> str:
     
     try:
         response = client.chat.completions.create(
-            model="local-model",
+            model="qwen2.5-coder-7b-instruct",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": compressed_logs}
