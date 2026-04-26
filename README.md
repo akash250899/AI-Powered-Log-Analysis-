@@ -94,12 +94,12 @@ curl -X POST http://localhost:8000/analyze \
 
 | Setting | Description | Default |
 |---------|-------------|---------|
-| MOCK_MODE | Use mock logs instead of SSH | `True` |
+| MOCK_MODE | Use mock logs instead of SSH | `false` (overridden by docker-compose) |
 | MAX_LOG_LINES | Maximum log lines to process | `10000` |
 | VALID_LOG_TYPES | Supported log types | `error`, `access`, `request` |
 | SERVER_MAPPING | Server IP mappings | 6 pre-configured servers |
-| SSH_USER | SSH username | `admin` |
-| SSH_KEY_PATH | Private key path | `~/.ssh/id_rsa` |
+| SSH_USER | SSH username | `aemuser` |
+| SSH_KEY_PATH | Private key path | `/app/mock_aem_key` |
 
 ### Server Mappings
 
