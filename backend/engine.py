@@ -44,7 +44,7 @@ def get_raw_logs(ip_address: str, port: int, log_type: str) -> str:
                 pkey=private_key, 
                 timeout=10
             )
-            command = f"tail -n 2000 /mnt/crx/author/crx-quickstart/logs/{log_type}.log"
+            command = f"tail -n {config.MAX_LOG_LINES} /mnt/crx/author/crx-quickstart/logs/{log_type}.log"
             stdin, stdout, stderr = ssh.exec_command(command, timeout=15)
             
             exit_status = stdout.channel.recv_exit_status()
